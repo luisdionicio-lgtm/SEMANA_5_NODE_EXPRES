@@ -1,12 +1,12 @@
 const SPORTS_DB_URL = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php";
 
 const leagues = [
-  { name: "Premier League", apiNames: ["English Premier League", "Premier League"], country: "Inglaterra", flag: "ENG", code: "PL", accent: "violet", description: "Intensidad, ritmo y alcance global." },
-  { name: "LaLiga", apiNames: ["Spanish La Liga", "La Liga", "LaLiga"], country: "España", flag: "ESP", code: "LL", accent: "red", description: "Técnica, identidad y grandes rivalidades." },
-  { name: "Serie A", apiNames: ["Italian Serie A", "Serie A"], country: "Italia", flag: "ITA", code: "SA", accent: "blue", description: "Tradición táctica y evolución competitiva." },
-  { name: "Bundesliga", apiNames: ["German Bundesliga", "Bundesliga"], country: "Alemania", flag: "GER", code: "BL", accent: "crimson", description: "Estadios vibrantes y fútbol ofensivo." },
-  { name: "Ligue 1", apiNames: ["French Ligue 1", "Ligue 1"], country: "Francia", flag: "FRA", code: "L1", accent: "navy", description: "Talento joven y potencia atlética." },
-  { name: "Primeira Liga", apiNames: ["Portuguese Primeira Liga", "Primeira Liga"], country: "Portugal", flag: "POR", code: "LP", accent: "green", description: "Formación, técnica y clubes históricos." },
+  { name: "Premier League", apiNames: ["English Premier League", "Premier League"], country: "Inglaterra", flag: "ENG", code: "PL", leagueId: "4328", badge: "https://r2.thesportsdb.com/images/media/league/badge/gasy9d1737743125.png", accent: "violet", description: "Intensidad, ritmo y alcance global." },
+  { name: "LaLiga", apiNames: ["Spanish La Liga", "La Liga", "LaLiga"], country: "España", flag: "ESP", code: "LL", leagueId: "4335", badge: "https://r2.thesportsdb.com/images/media/league/badge/ja4it51687628717.png", accent: "red", description: "Técnica, identidad y grandes rivalidades." },
+  { name: "Serie A", apiNames: ["Italian Serie A", "Serie A"], country: "Italia", flag: "ITA", code: "SA", leagueId: "4332", badge: "https://r2.thesportsdb.com/images/media/league/badge/67q3q21679951383.png", accent: "blue", description: "Tradición táctica y evolución competitiva." },
+  { name: "Bundesliga", apiNames: ["German Bundesliga", "Bundesliga"], country: "Alemania", flag: "GER", code: "BL", leagueId: "4331", badge: "https://r2.thesportsdb.com/images/media/league/badge/teqh1b1679952008.png", accent: "crimson", description: "Estadios vibrantes y fútbol ofensivo." },
+  { name: "Ligue 1", apiNames: ["French Ligue 1", "Ligue 1"], country: "Francia", flag: "FRA", code: "L1", leagueId: "4334", badge: "https://r2.thesportsdb.com/images/media/league/badge/9f7z9d1742983155.png", accent: "navy", description: "Talento joven y potencia atlética." },
+  { name: "Primeira Liga", apiNames: ["Portuguese Primeira Liga", "Primeira Liga"], country: "Portugal", flag: "POR", code: "LP", leagueId: "4344", badge: "https://r2.thesportsdb.com/images/media/league/badge/3tgdke1782689102.png", accent: "green", description: "Formación, técnica y clubes históricos." },
 ];
 
 const teams = [

@@ -32,7 +32,13 @@
       <% leagues.forEach((league, index) => { %>
         <article class="carousel-item league-card league-<%= league.accent %>" href="#league-<%= index %>">
           <div class="league-number">0<%= index + 1 %></div>
-          <div class="league-identity"><span class="league-emblem"><b><%= league.code %></b><small>⚽</small></span><span class="league-country-code"><%= league.flag %></span></div>
+          <div class="league-identity">
+            <span class="league-emblem">
+              <img src="<%= league.badge %>" alt="Logo actual de <%= league.name %>" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+              <b hidden><%= league.code %></b>
+            </span>
+            <span class="league-country-code"><%= league.flag %></span>
+          </div>
           <p><%= league.country %></p>
           <h3><%= league.name %></h3>
           <span><%= league.description %></span>

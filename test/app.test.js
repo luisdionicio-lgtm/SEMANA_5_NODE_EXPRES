@@ -126,6 +126,8 @@ test("GET /teams muestra las seis ligas y el formulario de siete campos", async 
   }
   assert.match(body, /Buscar club y autocompletar/);
   assert.match(body, /Escudo de Arsenal/);
+  assert.match(body, /Logo actual de Premier League/);
+  assert.match(body, /Logo actual de Primeira Liga/);
 });
 
 test("GET /api/teams/search valida los parámetros", async () => {
