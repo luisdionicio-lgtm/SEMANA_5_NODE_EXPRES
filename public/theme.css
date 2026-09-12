@@ -1,0 +1,182 @@
+:root {
+  --ink: #17213d;
+  --muted: #69738c;
+  --paper: #f2f4fa;
+  --navy: #111a36;
+  --blue: #3156d9;
+  --line: #dce1ee;
+  --green: #d28a22;
+
+  --charcoal: #17213d;
+  --slate: #69738c;
+  --ivory: #f2f4fa;
+  --champagne: #e2a33e;
+  --champagne-dark: #ad6d12;
+  --forest: #3156d9;
+}
+
+body {
+  background: var(--paper);
+}
+
+.nav-shell {
+  background: linear-gradient(90deg, #101832 0%, #1b2854 100%);
+}
+
+.nav-shell li.active {
+  background: rgba(226, 163, 62, 0.22);
+}
+
+.brand-mark {
+  color: #ffd88d;
+  border-color: rgba(255, 216, 141, 0.5);
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 83% 16%, rgba(226, 163, 62, 0.22), transparent 25%),
+    linear-gradient(128deg, #101832 0%, #263b82 58%, #3156d9 100%);
+}
+
+.hero .eyebrow {
+  color: #ffd88d;
+}
+
+.primary {
+  background: #3156d9 !important;
+}
+
+.primary:hover {
+  background: #243fa7 !important;
+}
+
+.blue-label,
+.feature-symbol,
+.message-head a {
+  color: #3156d9;
+}
+
+.icon-glyph {
+  color: #3156d9;
+  background: #e8edff;
+}
+
+.detail-symbol {
+  background: #3156d9;
+}
+
+.feature,
+.form-panel,
+.message,
+.metric,
+.architecture {
+  border-color: #dce1ee;
+}
+
+.metric,
+.avatar {
+  background: #1b2854;
+}
+
+.metric strong {
+  color: #d28a22;
+}
+
+.projects-main {
+  background:
+    radial-gradient(circle at 88% 2%, rgba(226, 163, 62, 0.18), transparent 29%),
+    #f2f4fa;
+}
+
+.portfolio-metric {
+  background: linear-gradient(145deg, #101832, #263b82);
+}
+
+.portfolio-metric strong {
+  color: #ffd88d;
+}
+
+.portfolio-button {
+  background: #3156d9 !important;
+}
+
+.portfolio-button:hover {
+  background: #243fa7 !important;
+}
+
+.status-pill {
+  color: #243fa7;
+  background: #e8edff;
+}
+
+.project-table th {
+  background: #f7f8fc;
+}
+
+.site-footer {
+  background: #0c132a;
+}
+
+.input-field input:focus,
+.input-field textarea:focus {
+  border-bottom-color: #3156d9 !important;
+  box-shadow: 0 1px 0 0 #3156d9 !important;
+}
+
+.input-field input:focus + label,
+.input-field textarea:focus + label,
+.dropdown-content li > a,
+.dropdown-content li > span {
+  color: #3156d9 !important;
+}
+
+.admin-heading {
+  padding-bottom: 28px;
+  border-bottom: 1px solid #dce1ee;
+}
+
+.messages .message {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #d9dfed;
+  border-left: 6px solid #d28a22;
+  background: linear-gradient(135deg, #ffffff 0%, #fffaf0 100%);
+  box-shadow: 0 12px 28px rgba(17, 26, 54, 0.1) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.messages .message:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 17px 34px rgba(17, 26, 54, 0.16) !important;
+}
+
+.messages .avatar {
+  color: #17213d;
+  background: #ffd88d;
+}
+
+.messages .message-head h2 {
+  color: #111a36;
+  font-weight: 800;
+}
+
+.messages .message > p {
+  padding: 16px;
+  color: #273453;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid #ebe5da;
+  border-radius: 8px;
+}
+
+.messages .message footer {
+  color: #8b5a16;
+  border-top-color: #ead9bb;
+  font-weight: 600;
+}
+
+.notice.success,
+.project-notice.success {
+  color: #704605;
+  background: #fff2d6;
+  border: 1px solid #efd29e;
+}

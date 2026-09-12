@@ -1,0 +1,44 @@
+.icon-glyph {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  color: #176bff;
+  background: #edf4ff;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.feature-symbol {
+  display: inline-block;
+  color: #176bff;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+}
+
+.detail-symbol {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: #176bff;
+  border-radius: 8px;
+}
+
+.menu-symbol {
+  font-size: 1.6rem;
+}
+
+.empty-symbol {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  color: #9ca8b9;
+  border: 2px solid #cbd3df;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 800;
+}

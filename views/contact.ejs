@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+<main class="inner-main">
+  <section class="container contact-grid">
+    <div><p class="eyebrow blue-label">Canal de contacto</p><h1>Conversemos sobre su consulta</h1><p class="lead">Complete los datos. El mensaje se registrará temporalmente y aparecerá en el panel administrativo.</p>
+      <div class="detail"><b class="detail-symbol">✓</b><div><strong>Datos validados</strong><span>Todos los campos son obligatorios.</span></div></div>
+      <div class="detail"><b class="detail-symbol">↻</b><div><strong>Registro inmediato</strong><span>Disponible en Administración al enviarse.</span></div></div>
+    </div>
+    <div class="form-panel z-depth-1">
+      <% if (sent) { %><div class="notice success"><b>✓</b><span>Mensaje registrado correctamente.</span></div><% } %>
+      <% if (typeof error !== 'undefined') { %><div class="notice error"><b>!</b><span><%= error %></span></div><% } %>
+      <form action="/contact" method="POST">
+        <div class="input-field"><input id="nombre" name="nombre" type="text" value="<%= typeof form !== 'undefined' ? form.nombre || '' : '' %>" required><label for="nombre">Nombre completo</label></div>
+        <div class="input-field"><input id="email" name="email" type="email" value="<%= typeof form !== 'undefined' ? form.email || '' : '' %>" required><label for="email">Correo electrónico</label></div>
+        <div class="input-field"><textarea id="mensaje" name="mensaje" class="materialize-textarea" required><%= typeof form !== 'undefined' ? form.mensaje || '' : '' %></textarea><label for="mensaje">Mensaje</label></div>
+        <button class="btn-large primary full waves-effect waves-light" type="submit">Registrar mensaje <span aria-hidden="true">→</span></button>
+      </form>
+    </div>
+  </section>
+</main>
+<%- include('partials/footer') %>

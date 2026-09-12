@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | Nexa Studio</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/symbols.css">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/layout-polish.css">
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="stylesheet" href="/football.css">
+  <link rel="stylesheet" href="/football-fix.css">
+</head>
+<body>
+  <header>
+    <nav class="nav-shell z-depth-0">
+      <div class="nav-wrapper container">
+        <a href="/" class="brand-logo"><span class="brand-mark">NX</span><span>Nexa Studio</span></a>
+        <a href="#" data-target="mobile-nav" class="sidenav-trigger" aria-label="Abrir menú"><span class="menu-symbol">☰</span></a>
+        <ul class="right hide-on-med-and-down">
+          <li class="<%= currentPath === '/' ? 'active' : '' %>"><a href="/">Inicio</a></li>
+          <li class="<%= currentPath === '/about' ? 'active' : '' %>"><a href="/about">Acerca de</a></li>
+          <li class="<%= currentPath === '/contact' ? 'active' : '' %>"><a href="/contact">Contacto</a></li>
+          <li class="<%= currentPath === '/admin' ? 'active' : '' %>"><a href="/admin">Administración</a></li>
+          <li class="<%= currentPath === '/teams' ? 'active' : '' %>"><a href="/teams">Fútbol europeo</a></li>
+        </ul>
+      </div>
+    </nav>
+    <ul class="sidenav" id="mobile-nav">
+      <li><a href="/">Inicio</a></li><li><a href="/about">Acerca de</a></li>
+      <li><a href="/contact">Contacto</a></li><li><a href="/admin">Administración</a></li><li><a href="/teams">Fútbol europeo</a></li>
+    </ul>
+  </header>

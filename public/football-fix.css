@@ -1,0 +1,24 @@
+@media (min-width: 1050px) {
+  .football-workspace {
+    display: block;
+  }
+
+  .club-form-panel {
+    max-width: 920px;
+    margin: 0 auto 30px;
+  }
+
+  .club-table-panel {
+    margin-top: 0;
+  }
+
+  .football-table {
+    min-width: 0;
+  }
+
+  .football-table th,
+  .football-table td {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+}

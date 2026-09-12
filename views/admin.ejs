@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+<main class="inner-main admin-main">
+  <section class="container admin-heading">
+    <div>
+      <p class="eyebrow blue-label">Panel administrativo</p>
+      <h1>Gestión de mensajes</h1>
+      <p class="lead">Revise, agregue, actualice o elimine los mensajes almacenados durante la ejecución actual.</p>
+    </div>
+    <div class="admin-summary">
+      <div class="metric"><strong><%= messages.length %></strong><span>Mensajes registrados</span></div>
+      <a href="/contact" class="btn-large admin-add waves-effect waves-light">Agregar mensaje <span aria-hidden="true">+</span></a>
+    </div>
+  </section>
+
+  <section class="container admin-feedback" aria-live="polite">
+    <% if (typeof updated !== 'undefined' && updated) { %><div class="admin-alert success"><b>✓</b><span>Mensaje corregido por el administrador.</span></div><% } %>
+    <% if (typeof deleted !== 'undefined' && deleted) { %><div class="admin-alert warning"><b>✓</b><span>Mensaje eliminado correctamente.</span></div><% } %>
+    <% if (typeof error !== 'undefined') { %><div class="admin-alert error"><b>!</b><span><%= error %></span></div><% } %>
+  </section>
+
+  <section class="container messages">
+    <% if (messages.length === 0) { %>
+      <div class="empty">
+        <div class="empty-symbol">0</div>
+        <h2>No hay mensajes todavía</h2>
+        <p>Utilice el formulario de contacto para crear el primer registro.</p>
+        <a href="/contact" class="btn primary waves-effect">Agregar mensaje</a>
+      </div>
+    <% } else { %>
+      <div class="row">
+        <% messages.forEach(message => { %>
+          <div class="col s12 l6">
+            <article class="message z-depth-1">
+              <div class="message-head">
+                <span class="avatar"><%= message.nombre.charAt(0).toUpperCase() %></span>
+                <div>
+                  <h2><%= message.nombre %></h2>
+                  <a href="mailto:<%= message.email %>"><%= message.email %></a>
+                </div>
+                <small>#<%= message.id %></small>
+              </div>
+
+              <% if (message.correctedByAdmin) { %>
+                <div class="admin-correction"><span>✓</span><strong>Corregido por el administrador</strong></div>
+              <% } %>
+
+              <p><%= message.mensaje %></p>
+
+              <footer>
+                <span aria-hidden="true">◷</span>
+                <span><%= message.correctedAt || message.receivedAt %></span>
+              </footer>
+
+              <div class="message-actions">
+                <button class="btn-flat edit-action modal-trigger waves-effect" data-target="edit-message-<%= message.id %>">Editar</button>
+                <form action="/admin/messages/<%= message.id %>/delete" method="POST" onsubmit="return confirm('¿Desea eliminar este mensaje? Esta acción no se puede deshacer.');">
+                  <button class="btn-flat delete-action waves-effect" type="submit">Eliminar</button>
+                </form>
+              </div>
+            </article>
+          </div>
+
+          <div id="edit-message-<%= message.id %>" class="modal admin-modal">
+            <form action="/admin/messages/<%= message.id %>/update" method="POST">
+              <div class="modal-content">
+                <p class="eyebrow blue-label">Editar registro #<%= message.id %></p>
+                <h2>Corregir mensaje</h2>
+                <p>Los cambios quedarán identificados como una corrección administrativa.</p>
+                <div class="input-field"><input id="nombre-<%= message.id %>" name="nombre" type="text" value="<%= message.nombre %>" required><label class="active" for="nombre-<%= message.id %>">Nombre</label></div>
+                <div class="input-field"><input id="email-<%= message.id %>" name="email" type="email" value="<%= message.email %>" required><label class="active" for="email-<%= message.id %>">Correo electrónico</label></div>
+                <div class="input-field"><textarea id="mensaje-<%= message.id %>" name="mensaje" class="materialize-textarea" required><%= message.mensaje %></textarea><label class="active" for="mensaje-<%= message.id %>">Mensaje</label></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="modal-close btn-flat">Cancelar</button>
+                <button type="submit" class="btn primary waves-effect waves-light">Guardar corrección</button>
+              </div>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </section>
+</main>
+<%- include('partials/footer') %>

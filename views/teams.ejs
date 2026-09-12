@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+<main class="football-main">
+  <section class="football-hero">
+    <div class="pitch-lines" aria-hidden="true"></div>
+    <div class="container football-hero-grid">
+      <div class="football-copy">
+        <p class="football-kicker">European Football Index</p>
+        <h1>El pulso de las grandes ligas de Europa</h1>
+        <p>Explora y registra clubes de seis campeonatos esenciales en una experiencia inspirada en las noches europeas.</p>
+        <div class="football-stats">
+          <div><strong>6</strong><span>Ligas</span></div>
+          <div><strong><%= teams.length %></strong><span>Clubes</span></div>
+          <div><strong><%= teams.reduce((sum, team) => sum + team.europeanTitles, 0) %></strong><span>Títulos europeos</span></div>
+        </div>
+      </div>
+      <div class="ball-orbit" aria-hidden="true">
+        <div class="orbit-ring"></div>
+        <div class="football-mark">EU<span>6</span></div>
+        <span class="orbit-label label-one">PASSION</span>
+        <span class="orbit-label label-two">LEGACY</span>
+        <span class="orbit-label label-three">GLORY</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="league-stage">
+    <div class="container league-heading">
+      <div><p class="football-section-label">Panorama de ligas</p><h2>Seis escenarios una misma pasión</h2></div>
+      <p>Desliza el carrusel para recorrer las competiciones incluidas en el registro.</p>
+    </div>
+    <div class="carousel league-carousel">
+      <% leagues.forEach((league, index) => { %>
+        <article class="carousel-item league-card league-<%= league.accent %>" href="#league-<%= index %>">
+          <div class="league-number">0<%= index + 1 %></div>
+          <div class="league-code"><%= league.code %></div>
+          <p><%= league.country %></p>
+          <h3><%= league.name %></h3>
+          <span><%= league.description %></span>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="container football-workspace">
+    <article class="club-form-panel">
+      <div class="football-panel-head"><div><p class="football-section-label">Mercado de clubes</p><h2>Registrar equipo</h2></div><span>7 campos</span></div>
+
+      <% if (created) { %><div class="football-alert success"><b>✓</b><span>Club agregado correctamente al registro europeo.</span></div><% } %>
+      <% if (deleted) { %><div class="football-alert warning"><b>✓</b><span>Club eliminado del registro.</span></div><% } %>
+      <% if (typeof error !== 'undefined') { %><div class="football-alert error"><b>!</b><span><%= error %></span></div><% } %>
+
+      <form action="/teams" method="POST">
+        <div class="row form-row">
+          <div class="input-field col s12 m6"><input id="club" name="club" type="text" value="<%= typeof form !== 'undefined' ? form.club || '' : '' %>" required><label for="club">Nombre del club</label></div>
+          <div class="input-field col s12 m6">
+            <select id="league" name="league" required>
+              <option value="" disabled <%= typeof form === 'undefined' || !form.league ? 'selected' : '' %>>Seleccionar liga</option>
+              <% leagues.forEach(league => { %><option value="<%= league.name %>" <%= typeof form !== 'undefined' && form.league === league.name ? 'selected' : '' %>><%= league.name %></option><% }) %>
+            </select><label for="league">Liga</label>
+          </div>
+        </div>
+        <div class="row form-row">
+          <div class="input-field col s12 m6"><input id="country" name="country" type="text" value="<%= typeof form !== 'undefined' ? form.country || '' : '' %>" placeholder="Se completa según la liga" readonly><label class="active" for="country">País</label></div>
+          <div class="input-field col s12 m6"><input id="city" name="city" type="text" value="<%= typeof form !== 'undefined' ? form.city || '' : '' %>" required><label for="city">Ciudad</label></div>
+        </div>
+        <div class="row form-row">
+          <div class="input-field col s12"><input id="stadium" name="stadium" type="text" value="<%= typeof form !== 'undefined' ? form.stadium || '' : '' %>" required><label for="stadium">Estadio</label></div>
+        </div>
+        <div class="row form-row">
+          <div class="input-field col s12 m6"><input id="founded" name="founded" type="number" min="1800" max="2026" value="<%= typeof form !== 'undefined' ? form.founded || '' : '' %>" required><label for="founded">Año de fundación</label></div>
+          <div class="input-field col s12 m6"><input id="europeanTitles" name="europeanTitles" type="number" min="0" value="<%= typeof form !== 'undefined' ? form.europeanTitles || '' : '' %>" required><label for="europeanTitles">Títulos europeos</label></div>
+        </div>
+        <button type="submit" class="btn-large football-submit waves-effect waves-light">Registrar club <span aria-hidden="true">→</span></button>
+      </form>
+    </article>
+
+    <article class="club-table-panel">
+      <div class="football-panel-head"><div><p class="football-section-label">Base de datos en memoria</p><h2>Clubes registrados</h2></div><span><%= teams.length %> equipos</span></div>
+      <div class="football-table-shell">
+        <table class="highlight responsive-table football-table">
+          <thead><tr><th>Club</th><th>Liga</th><th>Ciudad y estadio</th><th>Fundado</th><th>Europa</th><th>Acción</th></tr></thead>
+          <tbody>
+            <% teams.forEach(team => { %>
+              <tr>
+                <td><div class="club-cell"><span><%= team.club.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase() %></span><div><strong><%= team.club %></strong><small><%= team.country %></small></div></div></td>
+                <td><span class="league-tag"><%= team.league %></span></td>
+                <td><strong><%= team.city %></strong><small class="stadium-name"><%= team.stadium %></small></td>
+                <td><%= team.founded %></td>
+                <td><strong class="title-count"><%= team.europeanTitles %></strong></td>
+                <td><form action="/teams/<%= team.id %>/delete" method="POST" onsubmit="return confirm('¿Eliminar a <%= team.club %> del registro?');"><button class="btn-flat team-delete waves-effect" type="submit">Eliminar</button></form></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const countries = <%- JSON.stringify(Object.fromEntries(leagues.map(league => [league.name, league.country]))) %>;
+    const leagueSelect = document.getElementById('league');
+    const countryInput = document.getElementById('country');
+    const syncCountry = () => {
+      countryInput.value = countries[leagueSelect.value] || '';
+      M.updateTextFields();
+    };
+    leagueSelect.addEventListener('change', syncCountry);
+    syncCountry();
+  });
+</script>
+<%- include('partials/footer') %>

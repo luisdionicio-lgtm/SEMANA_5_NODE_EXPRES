@@ -1,0 +1,20 @@
+{
+  "name": "semana04-node",
+  "version": "1.0.0",
+  "description": "Nexa Studio, gestión digital con Express, EJS y Materialize",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "express",
+    "ejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}
