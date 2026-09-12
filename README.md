@@ -14,6 +14,9 @@ Aplicación web del laboratorio de Desarrollo de Aplicaciones Web Avanzado, desa
 - Formulario de siete campos para registrar clubes.
 - Tabla responsive con los equipos guardados en memoria.
 - Eliminación de clubes con confirmación.
+- Consulta de clubes en la API pública TheSportsDB.
+- Autocompletado de ciudad, estadio y año de fundación.
+- Escudos oficiales y emblemas visuales para clubes y ligas.
 
 ## Ligas incluidas
 
@@ -32,6 +35,11 @@ npm start
 ```
 
 Abra `http://localhost:3000` en el navegador.
+
+En **Clubes**, escriba el nombre oficial del equipo, seleccione una liga y pulse
+**Buscar club y autocompletar**. La aplicación usa el endpoint público de
+TheSportsDB y permite completar los datos manualmente si el servicio no encuentra
+una coincidencia.
 
 ## Pruebas
 

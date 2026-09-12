@@ -1,6 +1,8 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 
+// Las pruebas son deterministas y no consumen el límite de la API externa.
+process.env.DISABLE_TEAM_API = "1";
 const app = require("../app");
 
 let server;
@@ -122,6 +124,15 @@ test("GET /teams muestra las seis ligas y el formulario de siete campos", async 
   for (const field of ["club", "league", "country", "city", "stadium", "founded", "europeanTitles"]) {
     assert.match(body, new RegExp(`name="${field}"`));
   }
+  assert.match(body, /Buscar club y autocompletar/);
+  assert.match(body, /Escudo de Arsenal/);
+});
+
+test("GET /api/teams/search valida los parámetros", async () => {
+  const response = await fetch(`${baseUrl}/api/teams/search`);
+  const payload = await response.json();
+  assert.equal(response.status, 400);
+  assert.match(payload.error, /club/);
 });
 
 test("POST /teams guarda un club en memoria y redirige", async () => {
@@ -141,7 +152,7 @@ test("POST /teams guarda un club en memoria y redirige", async () => {
   });
 
   assert.equal(response.status, 302);
-  assert.equal(response.headers.get("location"), "/teams?created=1");
+  assert.equal(response.headers.get("location"), "/teams?created=1&source=manual");
 });
 
 test("GET /teams muestra la tabla con el club creado", async () => {

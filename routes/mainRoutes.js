@@ -12,6 +12,7 @@ router.get("/admin", mainController.admin);
 router.post("/admin/messages/:id/update", mainController.updateMessage);
 router.post("/admin/messages/:id/delete", mainController.deleteMessage);
 router.get("/teams", teamController.index);
+router.get("/api/teams/search", teamController.searchTeam);
 router.post("/teams", teamController.store);
 router.post("/teams/:id/delete", teamController.deleteTeam);
 

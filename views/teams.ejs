@@ -32,7 +32,7 @@
       <% leagues.forEach((league, index) => { %>
         <article class="carousel-item league-card league-<%= league.accent %>" href="#league-<%= index %>">
           <div class="league-number">0<%= index + 1 %></div>
-          <div class="league-code"><%= league.code %></div>
+          <div class="league-identity"><span class="league-emblem"><b><%= league.code %></b><small>⚽</small></span><span class="league-country-code"><%= league.flag %></span></div>
           <p><%= league.country %></p>
           <h3><%= league.name %></h3>
           <span><%= league.description %></span>
@@ -45,11 +45,19 @@
     <article class="club-form-panel">
       <div class="football-panel-head"><div><p class="football-section-label">Mercado de clubes</p><h2>Registrar equipo</h2></div><span>7 campos</span></div>
 
-      <% if (created) { %><div class="football-alert success"><b>✓</b><span>Club agregado correctamente al registro europeo.</span></div><% } %>
+      <% if (created) { %><div class="football-alert success"><b>✓</b><span>Club agregado correctamente. <%= apiFound ? 'Los datos oficiales y el escudo fueron verificados con TheSportsDB.' : 'Se guardó con la información manual proporcionada.' %></span></div><% } %>
       <% if (deleted) { %><div class="football-alert warning"><b>✓</b><span>Club eliminado del registro.</span></div><% } %>
       <% if (typeof error !== 'undefined') { %><div class="football-alert error"><b>!</b><span><%= error %></span></div><% } %>
 
-      <form action="/teams" method="POST">
+      <div class="api-assistant">
+        <div class="api-assistant-icon" aria-hidden="true">⚽</div>
+        <div><strong>Asistente de datos deportivos</strong><span>Escribe el nombre oficial, selecciona la liga y consulta la API antes de registrar.</span></div>
+        <span class="api-live"><i></i> API pública</span>
+      </div>
+
+      <form action="/teams" method="POST" id="team-form">
+        <input type="hidden" id="badge" name="badge" value="<%= typeof form !== 'undefined' ? form.badge || '' : '' %>">
+        <input type="hidden" id="apiId" name="apiId" value="<%= typeof form !== 'undefined' ? form.apiId || '' : '' %>">
         <div class="row form-row">
           <div class="input-field col s12 m6"><input id="club" name="club" type="text" value="<%= typeof form !== 'undefined' ? form.club || '' : '' %>" required><label for="club">Nombre del club</label></div>
           <div class="input-field col s12 m6">
@@ -58,6 +66,11 @@
               <% leagues.forEach(league => { %><option value="<%= league.name %>" <%= typeof form !== 'undefined' && form.league === league.name ? 'selected' : '' %>><%= league.name %></option><% }) %>
             </select><label for="league">Liga</label>
           </div>
+        </div>
+        <button type="button" class="btn api-search waves-effect waves-light" id="api-search"><span aria-hidden="true">⌕</span> Buscar club y autocompletar</button>
+        <div class="api-result" id="api-result" aria-live="polite" hidden>
+          <div class="api-result-crest"><img id="api-badge-preview" alt="" hidden><span id="api-badge-fallback">FC</span></div>
+          <div><strong id="api-result-title">Consultando...</strong><span id="api-result-message"></span></div>
         </div>
         <div class="row form-row">
           <div class="input-field col s12 m6"><input id="country" name="country" type="text" value="<%= typeof form !== 'undefined' ? form.country || '' : '' %>" placeholder="Se completa según la liga" readonly><label class="active" for="country">País</label></div>
@@ -82,8 +95,8 @@
           <tbody>
             <% teams.forEach(team => { %>
               <tr>
-                <td><div class="club-cell"><span><%= team.club.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase() %></span><div><strong><%= team.club %></strong><small><%= team.country %></small></div></div></td>
-                <td><span class="league-tag"><%= team.league %></span></td>
+                <td><div class="club-cell"><span class="club-crest"><% if (team.badge) { %><img src="<%= team.badge %>" alt="Escudo de <%= team.club %>" loading="lazy"><% } else { %><b><%= team.club.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase() %></b><% } %></span><div><strong><%= team.club %></strong><small><%= team.country %> · <%= team.dataSource === 'TheSportsDB' ? 'API verificada' : 'Registro manual' %></small></div></div></td>
+                <td><span class="league-tag"><i aria-hidden="true">⚽</i><%= team.league %></span></td>
                 <td><strong><%= team.city %></strong><small class="stadium-name"><%= team.stadium %></small></td>
                 <td><%= team.founded %></td>
                 <td><strong class="title-count"><%= team.europeanTitles %></strong></td>
@@ -102,12 +115,70 @@
     const countries = <%- JSON.stringify(Object.fromEntries(leagues.map(league => [league.name, league.country]))) %>;
     const leagueSelect = document.getElementById('league');
     const countryInput = document.getElementById('country');
+    const lookupButton = document.getElementById('api-search');
+    const result = document.getElementById('api-result');
+    const resultTitle = document.getElementById('api-result-title');
+    const resultMessage = document.getElementById('api-result-message');
+    const badgePreview = document.getElementById('api-badge-preview');
+    const badgeFallback = document.getElementById('api-badge-fallback');
     const syncCountry = () => {
       countryInput.value = countries[leagueSelect.value] || '';
       M.updateTextFields();
     };
     leagueSelect.addEventListener('change', syncCountry);
     syncCountry();
+
+    const showResult = (state, title, message) => {
+      result.hidden = false;
+      result.className = `api-result ${state}`;
+      resultTitle.textContent = title;
+      resultMessage.textContent = message;
+    };
+
+    lookupButton.addEventListener('click', async () => {
+      const club = document.getElementById('club').value.trim();
+      const league = leagueSelect.value;
+      if (!club || !league) {
+        showResult('error', 'Faltan datos', 'Escribe el club y selecciona una liga para iniciar la búsqueda.');
+        return;
+      }
+
+      lookupButton.disabled = true;
+      lookupButton.innerHTML = '<span class="api-spinner"></span> Consultando TheSportsDB';
+      showResult('loading', 'Buscando club…', 'Verificamos su competición y datos oficiales.');
+      try {
+        const response = await fetch(`/api/teams/search?club=${encodeURIComponent(club)}&league=${encodeURIComponent(league)}`);
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || 'No fue posible consultar el club.');
+        const team = payload.team;
+        document.getElementById('club').value = team.club;
+        countryInput.value = team.country;
+        document.getElementById('city').value = team.city;
+        document.getElementById('stadium').value = team.stadium;
+        document.getElementById('founded').value = team.founded;
+        document.getElementById('badge').value = team.badge || '';
+        document.getElementById('apiId').value = team.apiId || '';
+        badgeFallback.textContent = team.club.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase();
+        if (team.badge) {
+          badgePreview.src = team.badge;
+          badgePreview.alt = `Escudo de ${team.club}`;
+          badgePreview.hidden = false;
+          badgeFallback.hidden = true;
+        } else {
+          badgePreview.hidden = true;
+          badgeFallback.hidden = false;
+        }
+        M.updateTextFields();
+        showResult('success', `${team.club} encontrado`, `${team.stadium} · Fundado en ${team.founded} · Datos de TheSportsDB`);
+      } catch (error) {
+        badgePreview.hidden = true;
+        badgeFallback.hidden = false;
+        showResult('error', 'Búsqueda sin coincidencias', error.message);
+      } finally {
+        lookupButton.disabled = false;
+        lookupButton.innerHTML = '<span aria-hidden="true">⌕</span> Buscar club y autocompletar';
+      }
+    });
   });
 </script>
 <%- include('partials/footer') %>
