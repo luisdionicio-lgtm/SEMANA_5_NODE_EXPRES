@@ -117,7 +117,7 @@ test("GET /teams muestra las seis ligas y el formulario de siete campos", async 
   const body = await response.text();
 
   assert.equal(response.status, 200);
-  assert.match(body, /El pulso de las grandes ligas de Europa/);
+  assert.match(body, /Observatorio de las grandes ligas europeas/);
   for (const league of ["Premier League", "LaLiga", "Serie A", "Bundesliga", "Ligue 1", "Primeira Liga"]) {
     assert.match(body, new RegExp(league));
   }
@@ -131,6 +131,8 @@ test("GET /teams muestra las seis ligas y el formulario de siete campos", async 
   assert.match(body, /id="league-prev"/);
   assert.match(body, /id="league-next"/);
   assert.match(body, /Registrar un club/);
+  assert.match(body, /Competiciones incluidas/);
+  assert.match(body, /Logotipo de Bundesliga/);
 });
 
 test("GET /api/teams/search valida los parámetros", async () => {

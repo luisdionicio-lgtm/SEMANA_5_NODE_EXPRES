@@ -4,26 +4,41 @@
     <div class="pitch-lines" aria-hidden="true"></div>
     <div class="container football-hero-grid">
       <div class="football-copy">
-        <p class="football-kicker">European Football Index</p>
-        <h1>El pulso de las grandes ligas de Europa</h1>
-        <p>Explora y registra clubes de seis campeonatos esenciales en una experiencia inspirada en las noches europeas.</p>
+        <div class="hero-eyebrow"><span>EU6</span><p class="football-kicker">European Football Index</p></div>
+        <h1>Observatorio de las grandes ligas europeas</h1>
+        <p>Consulta y administra información de clubes pertenecientes a seis competiciones de referencia, en un entorno profesional y centralizado.</p>
+        <div class="football-hero-actions">
+          <a href="#league-showcase" class="btn hero-primary-action waves-effect waves-light">Explorar competiciones <span aria-hidden="true">↓</span></a>
+          <a href="#team-form" class="btn-flat hero-secondary-action waves-effect">Registrar equipo <span aria-hidden="true">→</span></a>
+        </div>
         <div class="football-stats">
-          <div><strong>6</strong><span>Ligas</span></div>
-          <div><strong><%= teams.length %></strong><span>Clubes</span></div>
-          <div><strong><%= teams.reduce((sum, team) => sum + team.europeanTitles, 0) %></strong><span>Títulos europeos</span></div>
+          <div><small>01</small><strong>6</strong><span>Ligas principales</span></div>
+          <div><small>02</small><strong><%= teams.length %></strong><span>Clubes registrados</span></div>
+          <div><small>03</small><strong><%= teams.reduce((sum, team) => sum + team.europeanTitles, 0) %></strong><span>Títulos europeos</span></div>
         </div>
       </div>
-      <div class="ball-orbit" aria-hidden="true">
-        <div class="orbit-ring"></div>
-        <div class="football-mark">EU<span>6</span></div>
-        <span class="orbit-label label-one">PASSION</span>
-        <span class="orbit-label label-two">LEGACY</span>
-        <span class="orbit-label label-three">GLORY</span>
-      </div>
+      <aside class="hero-league-board" aria-label="Ligas incluidas">
+        <div class="hero-board-head">
+          <div><span>Directorio oficial</span><strong>Competiciones incluidas</strong></div>
+          <span class="hero-board-status"><i></i> 6 activas</span>
+        </div>
+        <div class="hero-league-grid">
+          <% leagues.forEach((league, index) => { %>
+            <article class="hero-league-item">
+              <span class="hero-logo-wrap">
+                <img src="<%= league.badge %>" alt="Logotipo de <%= league.name %>" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                <b hidden><%= league.code %></b>
+              </span>
+              <div><small>0<%= index + 1 %> · <%= league.flag %></small><strong><%= league.name %></strong></div>
+            </article>
+          <% }) %>
+        </div>
+        <div class="hero-board-foot"><span>Datos deportivos</span><b>THE SPORTS DB</b></div>
+      </aside>
     </div>
   </section>
 
-  <section class="league-stage">
+  <section class="league-stage" id="league-showcase">
     <div class="container league-heading">
       <div class="league-heading-copy">
         <p class="football-section-label">Panorama de ligas</p>
