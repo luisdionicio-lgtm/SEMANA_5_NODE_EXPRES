@@ -25,10 +25,24 @@
 
   <section class="league-stage">
     <div class="container league-heading">
-      <div><p class="football-section-label">Panorama de ligas</p><h2>Seis escenarios una misma pasión</h2></div>
-      <p>Desliza el carrusel para recorrer las competiciones incluidas en el registro.</p>
+      <div class="league-heading-copy">
+        <p class="football-section-label">Panorama de ligas</p>
+        <h2>La élite del fútbol europeo</h2>
+        <p>Una selección editorial de los seis campeonatos que marcan el ritmo del continente.</p>
+      </div>
+      <div class="league-controls" aria-label="Controles del carrusel de ligas">
+        <button type="button" class="btn-flat league-control waves-effect" id="league-prev" aria-label="Liga anterior">
+          <span class="league-arrow" aria-hidden="true">←</span>
+          <small>Anterior</small>
+        </button>
+        <span class="league-position"><b id="league-current">01</b><i></i><span>06</span></span>
+        <button type="button" class="btn-flat league-control waves-effect" id="league-next" aria-label="Liga siguiente">
+          <small>Siguiente</small>
+          <span class="league-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
-    <div class="carousel league-carousel">
+    <div class="carousel league-carousel" id="league-carousel">
       <% leagues.forEach((league, index) => { %>
         <article class="carousel-item league-card league-<%= league.accent %>" href="#league-<%= index %>">
           <div class="league-number">0<%= index + 1 %></div>
@@ -42,8 +56,13 @@
           <p><%= league.country %></p>
           <h3><%= league.name %></h3>
           <span><%= league.description %></span>
+          <div class="league-card-footer"><span>Primera división</span><b><%= league.code %></b></div>
         </article>
       <% }) %>
+    </div>
+    <div class="container league-stage-footer">
+      <span><i></i> Competiciones disponibles en el registro</span>
+      <a href="#team-form" class="btn league-register waves-effect waves-light">Registrar un club <span class="league-arrow" aria-hidden="true">↓</span></a>
     </div>
   </section>
 
@@ -127,12 +146,25 @@
     const resultMessage = document.getElementById('api-result-message');
     const badgePreview = document.getElementById('api-badge-preview');
     const badgeFallback = document.getElementById('api-badge-fallback');
+    const carouselElement = document.getElementById('league-carousel');
+    const currentLeague = document.getElementById('league-current');
+    let activeLeague = 0;
     const syncCountry = () => {
       countryInput.value = countries[leagueSelect.value] || '';
       M.updateTextFields();
     };
     leagueSelect.addEventListener('change', syncCountry);
     syncCountry();
+
+    const moveCarousel = (direction) => {
+      const carousel = M.Carousel.getInstance(carouselElement);
+      if (!carousel) return;
+      activeLeague = (activeLeague + direction + <%= leagues.length %>) % <%= leagues.length %>;
+      currentLeague.textContent = String(activeLeague + 1).padStart(2, '0');
+      direction > 0 ? carousel.next() : carousel.prev();
+    };
+    document.getElementById('league-prev').addEventListener('click', () => moveCarousel(-1));
+    document.getElementById('league-next').addEventListener('click', () => moveCarousel(1));
 
     const showResult = (state, title, message) => {
       result.hidden = false;

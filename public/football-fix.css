@@ -153,3 +153,112 @@
   .api-assistant { grid-template-columns: auto 1fr; }
   .api-assistant .api-live { grid-column: 2; }
 }
+
+/* Presentación editorial exclusiva del carrusel de ligas */
+.league-stage {
+  position: relative;
+  overflow: hidden;
+  padding-top: 78px;
+  background:
+    linear-gradient(90deg, rgba(145, 244, 103, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(145, 244, 103, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 18% 20%, rgba(94, 200, 125, 0.13), transparent 27%),
+    #081812;
+  background-size: 46px 46px, 46px 46px, auto, auto;
+}
+
+.league-stage::before {
+  content: "EUROPE / TOP FLIGHT";
+  position: absolute;
+  top: 34px;
+  right: -18px;
+  color: rgba(255, 255, 255, 0.025);
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 950;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.league-heading { position: relative; align-items: flex-end; }
+.league-heading-copy { max-width: 680px; }
+.league-heading-copy > p:last-child { max-width: 560px; margin: 16px 0 0; color: #97aca2; line-height: 1.65; }
+
+.league-controls {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+}
+
+.league-control {
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 13px;
+  color: #dce8e2;
+  border-radius: 9px;
+  text-transform: none;
+}
+
+.league-control:hover { color: #081812; background: #91f467; }
+.league-control small { font-size: 0.72rem; font-weight: 800; }
+.league-control .league-arrow { font-size: 1.15rem; }
+
+.league-position { display: flex; align-items: center; gap: 8px; color: #778d82; font-size: 0.72rem; font-style: normal; }
+.league-position b { color: #91f467; font-size: 0.85rem; }
+.league-position i { width: 24px; height: 1px; display: block; background: #52685d; }
+
+.league-carousel { margin-top: 28px; }
+.league-card { overflow: hidden; padding: 26px; border-color: rgba(255, 255, 255, 0.2); }
+.league-card::after { content: ""; position: absolute; inset: 9px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 13px; pointer-events: none; }
+.league-card .league-identity { margin-bottom: 15px; }
+.league-card .league-emblem { width: 70px; height: 76px; border-radius: 17px 17px 25px 25px; }
+.league-card > p { color: rgba(255, 255, 255, 0.66); }
+.league-card > span { min-height: 42px; }
+
+.league-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.league-card-footer span { color: rgba(255, 255, 255, 0.58); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.league-card-footer b { color: #91f467; font-size: 0.72rem; letter-spacing: 0.12em; }
+
+.league-stage-footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0 34px;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.league-stage-footer > span { color: #8da298; font-size: 0.75rem; font-weight: 700; }
+.league-stage-footer > span i { width: 7px; height: 7px; display: inline-block; margin-right: 8px; background: #91f467; border-radius: 50%; box-shadow: 0 0 12px #91f467; }
+.league-register { display: inline-flex; align-items: center; gap: 8px; color: #07130f; background: #91f467 !important; border-radius: 9px; box-shadow: none; text-transform: none; font-weight: 900; }
+.league-register:hover { background: #b1ff92 !important; box-shadow: 0 10px 24px rgba(145, 244, 103, 0.16); }
+.league-register .league-arrow { font-size: 1rem; }
+
+@media (max-width: 900px) {
+  .league-heading { align-items: flex-start; }
+  .league-controls { align-self: stretch; justify-content: space-between; }
+}
+
+@media (max-width: 600px) {
+  .league-stage { padding-top: 58px; }
+  .league-controls { width: 100%; }
+  .league-control small { display: none; }
+  .league-stage-footer { align-items: flex-start; flex-direction: column; }
+  .league-register { width: 100%; justify-content: center; }
+}
